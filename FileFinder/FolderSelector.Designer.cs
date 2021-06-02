@@ -40,26 +40,29 @@ namespace FileFinder
             // 
             // TextSourcePath
             // 
-            this.TextSourcePath.Location = new System.Drawing.Point(18, 47);
+            this.TextSourcePath.Location = new System.Drawing.Point(12, 31);
+            this.TextSourcePath.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.TextSourcePath.Name = "TextSourcePath";
-            this.TextSourcePath.Size = new System.Drawing.Size(1491, 26);
+            this.TextSourcePath.Size = new System.Drawing.Size(995, 20);
             this.TextSourcePath.TabIndex = 0;
             // 
             // lblSource
             // 
             this.lblSource.AutoSize = true;
             this.lblSource.Font = new System.Drawing.Font("MS Reference Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSource.Location = new System.Drawing.Point(12, 9);
+            this.lblSource.Location = new System.Drawing.Point(8, 6);
+            this.lblSource.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblSource.Name = "lblSource";
-            this.lblSource.Size = new System.Drawing.Size(126, 35);
+            this.lblSource.Size = new System.Drawing.Size(85, 24);
             this.lblSource.TabIndex = 1;
             this.lblSource.Text = "Source:";
             // 
             // BtnSourceBrowse
             // 
-            this.BtnSourceBrowse.Location = new System.Drawing.Point(1516, 47);
+            this.BtnSourceBrowse.Location = new System.Drawing.Point(1011, 31);
+            this.BtnSourceBrowse.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.BtnSourceBrowse.Name = "BtnSourceBrowse";
-            this.BtnSourceBrowse.Size = new System.Drawing.Size(75, 26);
+            this.BtnSourceBrowse.Size = new System.Drawing.Size(50, 20);
             this.BtnSourceBrowse.TabIndex = 2;
             this.BtnSourceBrowse.Text = "Browse";
             this.BtnSourceBrowse.UseVisualStyleBackColor = true;
@@ -67,9 +70,10 @@ namespace FileFinder
             // 
             // BtnBrowseDestination
             // 
-            this.BtnBrowseDestination.Location = new System.Drawing.Point(1516, 193);
+            this.BtnBrowseDestination.Location = new System.Drawing.Point(1011, 125);
+            this.BtnBrowseDestination.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.BtnBrowseDestination.Name = "BtnBrowseDestination";
-            this.BtnBrowseDestination.Size = new System.Drawing.Size(75, 26);
+            this.BtnBrowseDestination.Size = new System.Drawing.Size(50, 20);
             this.BtnBrowseDestination.TabIndex = 5;
             this.BtnBrowseDestination.Text = "Browse";
             this.BtnBrowseDestination.UseVisualStyleBackColor = true;
@@ -79,24 +83,27 @@ namespace FileFinder
             // 
             this.lblDestination.AutoSize = true;
             this.lblDestination.Font = new System.Drawing.Font("MS Reference Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDestination.Location = new System.Drawing.Point(12, 155);
+            this.lblDestination.Location = new System.Drawing.Point(8, 101);
+            this.lblDestination.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblDestination.Name = "lblDestination";
-            this.lblDestination.Size = new System.Drawing.Size(192, 35);
+            this.lblDestination.Size = new System.Drawing.Size(128, 24);
             this.lblDestination.TabIndex = 4;
             this.lblDestination.Text = "Destination:";
             // 
             // TextDestinationPath
             // 
-            this.TextDestinationPath.Location = new System.Drawing.Point(18, 193);
+            this.TextDestinationPath.Location = new System.Drawing.Point(12, 125);
+            this.TextDestinationPath.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.TextDestinationPath.Name = "TextDestinationPath";
-            this.TextDestinationPath.Size = new System.Drawing.Size(1491, 26);
+            this.TextDestinationPath.Size = new System.Drawing.Size(995, 20);
             this.TextDestinationPath.TabIndex = 3;
             // 
             // btnStart
             // 
-            this.btnStart.Location = new System.Drawing.Point(1562, 317);
+            this.btnStart.Location = new System.Drawing.Point(1041, 206);
+            this.btnStart.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(90, 32);
+            this.btnStart.Size = new System.Drawing.Size(60, 21);
             this.btnStart.TabIndex = 6;
             this.btnStart.Text = "Start";
             this.btnStart.UseVisualStyleBackColor = true;
@@ -104,9 +111,9 @@ namespace FileFinder
             // 
             // FormFolderSelector
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1664, 361);
+            this.ClientSize = new System.Drawing.Size(1109, 235);
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.BtnBrowseDestination);
             this.Controls.Add(this.lblDestination);
@@ -115,6 +122,7 @@ namespace FileFinder
             this.Controls.Add(this.lblSource);
             this.Controls.Add(this.TextSourcePath);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "FormFolderSelector";
             this.Text = "Folder Selector";
             this.ResumeLayout(false);
