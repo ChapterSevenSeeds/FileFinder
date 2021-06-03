@@ -23,9 +23,16 @@ namespace FileFinder
 
         bool sourceDone = false, destinationDone = false;
 
+        private void EnumerationInfo_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            updateUITimer.Stop();
+        }
+
         public EnumerationInfo(SessionInfo session)
         {
             InitializeComponent();
+
+            DialogResult = DialogResult.Cancel;
 
             lblSource.Text = session.Source.FullName;
             lblDestination.Text = session.Destination.FullName;
@@ -96,23 +103,27 @@ namespace FileFinder
             if(sourceDone && destinationDone)
             {
                 lblMainStatus.Text = "Done!";
-                updateUITimer.Stop();
+                DialogResult = DialogResult.OK;
                 Close();
             }
         }
 
         private void UpdateUI(object source, ElapsedEventArgs e)
         {
-            Invoke(new Action(() =>
+            try
             {
-                lblSourceFolderCount.Text = "Folders: " + String.Format("{0:n0}", sourceDirectoryCount);
-                lblSourceFilesCount.Text = "Files: " + String.Format("{0:n0}", sourceFileCount);
-                lblSourceBytes.Text = "Total Bytes: " + String.Format("{0:n0}", sourceByteCount);
+                Invoke(new Action(() =>
+                {
+                    lblSourceFolderCount.Text = "Folders: " + String.Format("{0:n0}", sourceDirectoryCount);
+                    lblSourceFilesCount.Text = "Files: " + String.Format("{0:n0}", sourceFileCount);
+                    lblSourceBytes.Text = "Total Bytes: " + String.Format("{0:n0}", sourceByteCount);
 
-                lblDestinationFoldersCount.Text = "Folders: " + String.Format("{0:n0}", destinationDirectoryCount);
-                lblDestinationFilesCount.Text = "Files: " + String.Format("{0:n0}", destinationFileCount);
-                lblDestinationTotalBytes.Text = "Total Bytes: " + String.Format("{0:n0}", destinationByteCount);
-            }));
+                    lblDestinationFoldersCount.Text = "Folders: " + String.Format("{0:n0}", destinationDirectoryCount);
+                    lblDestinationFilesCount.Text = "Files: " + String.Format("{0:n0}", destinationFileCount);
+                    lblDestinationTotalBytes.Text = "Total Bytes: " + String.Format("{0:n0}", destinationByteCount);
+                }));
+            }
+            catch (Exception) { }
         }
     }
 }

@@ -27,6 +27,7 @@ namespace FileFinder
             {
                 source = dialog.FileName;
                 TextSourcePath.Text = source;
+                ResetButtonStatus();
             }
             catch (Exception) { }
         }
@@ -38,8 +39,14 @@ namespace FileFinder
             {
                 destination = dialog.FileName;
                 TextDestinationPath.Text = destination;
+                ResetButtonStatus();
             }
             catch (Exception) { }
+        }
+
+        private void ResetButtonStatus()
+        {
+            btnStart.Enabled = source != null && destination != null;
         }
 
         private void btnStart_Click(object sender, EventArgs e)
@@ -47,6 +54,18 @@ namespace FileFinder
             session.Source = new DirectoryInfo(source);
             session.Destination = new DirectoryInfo(destination);
             Close();
+        }
+
+        private void FormFolderSelector_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (source != null && destination != null)
+            {
+                DialogResult = DialogResult.OK;
+            }
+            else
+            {
+                DialogResult = DialogResult.Cancel;
+            }
         }
     }
 }

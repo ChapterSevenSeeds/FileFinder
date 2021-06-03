@@ -33,10 +33,12 @@ namespace FileFinder
             session = new SessionInfo();
 
             FormFolderSelector selector = new FormFolderSelector(session);
-            selector.ShowDialog();
+            if (selector.ShowDialog() == DialogResult.Cancel)
+                Process.GetCurrentProcess().Kill();
 
             EnumerationInfo enumerationInfo = new EnumerationInfo(session);
-            enumerationInfo.ShowDialog();
+            if (enumerationInfo.ShowDialog() == DialogResult.Cancel)
+                Process.GetCurrentProcess().Kill();
 
             progressBar.Maximum = session.SourceFiles.Count;
 

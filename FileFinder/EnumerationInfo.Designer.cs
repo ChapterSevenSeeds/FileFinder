@@ -30,18 +30,18 @@ namespace FileFinder
         private void InitializeComponent()
         {
             this.groupSourceInfo = new System.Windows.Forms.GroupBox();
-            this.lblSourceFolderCount = new System.Windows.Forms.Label();
-            this.lblSourceFilesCount = new System.Windows.Forms.Label();
+            this.lblSource = new System.Windows.Forms.Label();
+            this.lblSourceStatus = new System.Windows.Forms.Label();
             this.lblSourceBytes = new System.Windows.Forms.Label();
+            this.lblSourceFilesCount = new System.Windows.Forms.Label();
+            this.lblSourceFolderCount = new System.Windows.Forms.Label();
             this.lblMainStatus = new System.Windows.Forms.Label();
             this.groupDestinationInfo = new System.Windows.Forms.GroupBox();
+            this.lblDestination = new System.Windows.Forms.Label();
+            this.lblDestinationStatus = new System.Windows.Forms.Label();
             this.lblDestinationTotalBytes = new System.Windows.Forms.Label();
             this.lblDestinationFilesCount = new System.Windows.Forms.Label();
             this.lblDestinationFoldersCount = new System.Windows.Forms.Label();
-            this.lblSourceStatus = new System.Windows.Forms.Label();
-            this.lblDestinationStatus = new System.Windows.Forms.Label();
-            this.lblDestination = new System.Windows.Forms.Label();
-            this.lblSource = new System.Windows.Forms.Label();
             this.groupSourceInfo.SuspendLayout();
             this.groupDestinationInfo.SuspendLayout();
             this.SuspendLayout();
@@ -60,15 +60,35 @@ namespace FileFinder
             this.groupSourceInfo.TabStop = false;
             this.groupSourceInfo.Text = "Source Information";
             // 
-            // lblSourceFolderCount
+            // lblSource
             // 
-            this.lblSourceFolderCount.AutoSize = true;
-            this.lblSourceFolderCount.Font = new System.Drawing.Font("MS Reference Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSourceFolderCount.Location = new System.Drawing.Point(6, 78);
-            this.lblSourceFolderCount.Name = "lblSourceFolderCount";
-            this.lblSourceFolderCount.Size = new System.Drawing.Size(111, 29);
-            this.lblSourceFolderCount.TabIndex = 0;
-            this.lblSourceFolderCount.Text = "Folders:";
+            this.lblSource.AutoSize = true;
+            this.lblSource.Font = new System.Drawing.Font("MS Reference Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSource.Location = new System.Drawing.Point(6, 38);
+            this.lblSource.Name = "lblSource";
+            this.lblSource.Size = new System.Drawing.Size(63, 29);
+            this.lblSource.TabIndex = 6;
+            this.lblSource.Text = "asdf";
+            // 
+            // lblSourceStatus
+            // 
+            this.lblSourceStatus.AutoSize = true;
+            this.lblSourceStatus.Font = new System.Drawing.Font("MS Reference Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSourceStatus.Location = new System.Drawing.Point(6, 259);
+            this.lblSourceStatus.Name = "lblSourceStatus";
+            this.lblSourceStatus.Size = new System.Drawing.Size(163, 26);
+            this.lblSourceStatus.TabIndex = 3;
+            this.lblSourceStatus.Text = "Enumerating...";
+            // 
+            // lblSourceBytes
+            // 
+            this.lblSourceBytes.AutoSize = true;
+            this.lblSourceBytes.Font = new System.Drawing.Font("MS Reference Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSourceBytes.Location = new System.Drawing.Point(6, 163);
+            this.lblSourceBytes.Name = "lblSourceBytes";
+            this.lblSourceBytes.Size = new System.Drawing.Size(157, 29);
+            this.lblSourceBytes.TabIndex = 2;
+            this.lblSourceBytes.Text = "Total Bytes:";
             // 
             // lblSourceFilesCount
             // 
@@ -80,15 +100,15 @@ namespace FileFinder
             this.lblSourceFilesCount.TabIndex = 1;
             this.lblSourceFilesCount.Text = "Files:";
             // 
-            // lblSourceBytes
+            // lblSourceFolderCount
             // 
-            this.lblSourceBytes.AutoSize = true;
-            this.lblSourceBytes.Font = new System.Drawing.Font("MS Reference Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSourceBytes.Location = new System.Drawing.Point(6, 163);
-            this.lblSourceBytes.Name = "lblSourceBytes";
-            this.lblSourceBytes.Size = new System.Drawing.Size(157, 29);
-            this.lblSourceBytes.TabIndex = 2;
-            this.lblSourceBytes.Text = "Total Bytes:";
+            this.lblSourceFolderCount.AutoSize = true;
+            this.lblSourceFolderCount.Font = new System.Drawing.Font("MS Reference Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSourceFolderCount.Location = new System.Drawing.Point(6, 78);
+            this.lblSourceFolderCount.Name = "lblSourceFolderCount";
+            this.lblSourceFolderCount.Size = new System.Drawing.Size(111, 29);
+            this.lblSourceFolderCount.TabIndex = 0;
+            this.lblSourceFolderCount.Text = "Folders:";
             // 
             // lblMainStatus
             // 
@@ -113,6 +133,26 @@ namespace FileFinder
             this.groupDestinationInfo.TabIndex = 3;
             this.groupDestinationInfo.TabStop = false;
             this.groupDestinationInfo.Text = "Destination Information";
+            // 
+            // lblDestination
+            // 
+            this.lblDestination.AutoSize = true;
+            this.lblDestination.Font = new System.Drawing.Font("MS Reference Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDestination.Location = new System.Drawing.Point(6, 38);
+            this.lblDestination.Name = "lblDestination";
+            this.lblDestination.Size = new System.Drawing.Size(63, 29);
+            this.lblDestination.TabIndex = 5;
+            this.lblDestination.Text = "asdf";
+            // 
+            // lblDestinationStatus
+            // 
+            this.lblDestinationStatus.AutoSize = true;
+            this.lblDestinationStatus.Font = new System.Drawing.Font("MS Reference Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDestinationStatus.Location = new System.Drawing.Point(6, 259);
+            this.lblDestinationStatus.Name = "lblDestinationStatus";
+            this.lblDestinationStatus.Size = new System.Drawing.Size(163, 26);
+            this.lblDestinationStatus.TabIndex = 4;
+            this.lblDestinationStatus.Text = "Enumerating...";
             // 
             // lblDestinationTotalBytes
             // 
@@ -144,46 +184,6 @@ namespace FileFinder
             this.lblDestinationFoldersCount.TabIndex = 0;
             this.lblDestinationFoldersCount.Text = "Folders:";
             // 
-            // lblSourceStatus
-            // 
-            this.lblSourceStatus.AutoSize = true;
-            this.lblSourceStatus.Font = new System.Drawing.Font("MS Reference Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSourceStatus.Location = new System.Drawing.Point(6, 259);
-            this.lblSourceStatus.Name = "lblSourceStatus";
-            this.lblSourceStatus.Size = new System.Drawing.Size(163, 26);
-            this.lblSourceStatus.TabIndex = 3;
-            this.lblSourceStatus.Text = "Enumerating...";
-            // 
-            // lblDestinationStatus
-            // 
-            this.lblDestinationStatus.AutoSize = true;
-            this.lblDestinationStatus.Font = new System.Drawing.Font("MS Reference Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDestinationStatus.Location = new System.Drawing.Point(6, 259);
-            this.lblDestinationStatus.Name = "lblDestinationStatus";
-            this.lblDestinationStatus.Size = new System.Drawing.Size(163, 26);
-            this.lblDestinationStatus.TabIndex = 4;
-            this.lblDestinationStatus.Text = "Enumerating...";
-            // 
-            // lblDestination
-            // 
-            this.lblDestination.AutoSize = true;
-            this.lblDestination.Font = new System.Drawing.Font("MS Reference Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDestination.Location = new System.Drawing.Point(6, 38);
-            this.lblDestination.Name = "lblDestination";
-            this.lblDestination.Size = new System.Drawing.Size(63, 29);
-            this.lblDestination.TabIndex = 5;
-            this.lblDestination.Text = "asdf";
-            // 
-            // lblSource
-            // 
-            this.lblSource.AutoSize = true;
-            this.lblSource.Font = new System.Drawing.Font("MS Reference Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSource.Location = new System.Drawing.Point(6, 38);
-            this.lblSource.Name = "lblSource";
-            this.lblSource.Size = new System.Drawing.Size(63, 29);
-            this.lblSource.TabIndex = 6;
-            this.lblSource.Text = "asdf";
-            // 
             // EnumerationInfo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -195,6 +195,7 @@ namespace FileFinder
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "EnumerationInfo";
             this.Text = "Enumerating Files...";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.EnumerationInfo_FormClosing);
             this.groupSourceInfo.ResumeLayout(false);
             this.groupSourceInfo.PerformLayout();
             this.groupDestinationInfo.ResumeLayout(false);
