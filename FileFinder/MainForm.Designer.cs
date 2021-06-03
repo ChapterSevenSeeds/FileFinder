@@ -39,8 +39,11 @@ namespace FileFinder
             this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.logToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.selectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.allIdenticalItemsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.singleSelectRightClickMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openSourceFileFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openDestinationFileFolderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -51,9 +54,6 @@ namespace FileFinder
             this.multiSelectRightClickMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteSourceFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteDestinationFilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.selectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.allIdenticalItemsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.gridResults)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -81,7 +81,7 @@ namespace FileFinder
             this.gridResults.Size = new System.Drawing.Size(2389, 1314);
             this.gridResults.TabIndex = 0;
             this.gridResults.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.gridResults_ColumnHeaderMouseClick);
-            this.gridResults.MouseUp += new System.Windows.Forms.MouseEventHandler(this.gridResults_MouseUp);
+            this.gridResults.SelectionChanged += new System.EventHandler(this.gridResults_SelectionChanged);
             // 
             // columnResult
             // 
@@ -157,6 +157,13 @@ namespace FileFinder
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(54, 29);
             this.fileToolStripMenuItem.Text = "File";
             // 
+            // closeToolStripMenuItem
+            // 
+            this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(157, 34);
+            this.closeToolStripMenuItem.Text = "Close";
+            this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
+            // 
             // viewToolStripMenuItem
             // 
             this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -171,6 +178,21 @@ namespace FileFinder
             this.logToolStripMenuItem.Size = new System.Drawing.Size(144, 34);
             this.logToolStripMenuItem.Text = "Log";
             this.logToolStripMenuItem.Click += new System.EventHandler(this.logToolStripMenuItem_Click);
+            // 
+            // selectToolStripMenuItem
+            // 
+            this.selectToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.allIdenticalItemsToolStripMenuItem});
+            this.selectToolStripMenuItem.Name = "selectToolStripMenuItem";
+            this.selectToolStripMenuItem.Size = new System.Drawing.Size(74, 29);
+            this.selectToolStripMenuItem.Text = "Select";
+            // 
+            // allIdenticalItemsToolStripMenuItem
+            // 
+            this.allIdenticalItemsToolStripMenuItem.Name = "allIdenticalItemsToolStripMenuItem";
+            this.allIdenticalItemsToolStripMenuItem.Size = new System.Drawing.Size(254, 34);
+            this.allIdenticalItemsToolStripMenuItem.Text = "All Identical Items";
+            this.allIdenticalItemsToolStripMenuItem.Click += new System.EventHandler(this.allIdenticalItemsToolStripMenuItem_Click);
             // 
             // singleSelectRightClickMenu
             // 
@@ -249,28 +271,6 @@ namespace FileFinder
             this.deleteDestinationFilesToolStripMenuItem.Size = new System.Drawing.Size(268, 32);
             this.deleteDestinationFilesToolStripMenuItem.Text = "Delete Destination Files";
             this.deleteDestinationFilesToolStripMenuItem.Click += new System.EventHandler(this.deleteDestinationFilesToolStripMenuItem_Click);
-            // 
-            // closeToolStripMenuItem
-            // 
-            this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
-            this.closeToolStripMenuItem.Text = "Close";
-            this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
-            // 
-            // selectToolStripMenuItem
-            // 
-            this.selectToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.allIdenticalItemsToolStripMenuItem});
-            this.selectToolStripMenuItem.Name = "selectToolStripMenuItem";
-            this.selectToolStripMenuItem.Size = new System.Drawing.Size(74, 29);
-            this.selectToolStripMenuItem.Text = "Select";
-            // 
-            // allIdenticalItemsToolStripMenuItem
-            // 
-            this.allIdenticalItemsToolStripMenuItem.Name = "allIdenticalItemsToolStripMenuItem";
-            this.allIdenticalItemsToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
-            this.allIdenticalItemsToolStripMenuItem.Text = "All Identical Items";
-            this.allIdenticalItemsToolStripMenuItem.Click += new System.EventHandler(this.allIdenticalItemsToolStripMenuItem_Click);
             // 
             // FormFileFinder
             // 

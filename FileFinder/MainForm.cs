@@ -81,34 +81,34 @@ namespace FileFinder
                 WriteToLog($"Looking for {file.EntryName}. Size: {String.Format("{0:n0}", file.Entry.Length)}");
                 foreach (var destFile in session.DestinationFiles)
                 {
-                    if (file.Entry.Length == destFile.Entry.Length && file.EntryName != destFile.EntryName)
+                    lock (destFile)
                     {
-                        if (file.Hash == null)
+                        if (file.Entry.Length == destFile.Entry.Length && file.EntryName != destFile.EntryName)
                         {
-                            WriteStatus($"Computing source hash of {file.EntryName}");
-                            WriteToLog($"Computing source hash of {file.EntryName}");
-                            ComputeHash(file);
-                        }
+                            if (file.Hash == null)
+                            {
+                                WriteStatus($"Computing source hash of {file.EntryName}");
+                                WriteToLog($"Computing source hash of {file.EntryName}");
+                                ComputeHash(file);
+                            }
 
-                        lock (destFile)
-                        {
                             if (destFile.Hash == null)
                             {
                                     WriteStatus($"Computing destination hash of {destFile.EntryName}");
                                     WriteToLog($"Computing destination hash of {destFile.EntryName}");
                                     ComputeHash(destFile);
                             }
-                        }
 
-                        if (destFile.Hash == "cant")
-                            continue;
+                            if (destFile.Hash == "cant")
+                                continue;
 
-                        if (file.Hash == "cant" || (file.Hash == destFile.Hash))
-                        {
-                            WriteToLog($"Match found. File size: {String.Format("{0:n0}", file.Entry.Length)}. {file.Entry.FullName} <==> {destFile.Entry.FullName}");
-                            WriteStatus($"Match found.");
-                            file.Conjugate = destFile;
-                            break;
+                            if (file.Hash == "cant" || (file.Hash == destFile.Hash))
+                            {
+                                WriteToLog($"Match found. File size: {String.Format("{0:n0}", file.Entry.Length)}. {file.Entry.FullName} <==> {destFile.Entry.FullName}");
+                                WriteStatus($"Match found.");
+                                file.Conjugate = destFile;
+                                break;
+                            }
                         }
                     }
                 }
@@ -167,8 +167,10 @@ namespace FileFinder
             {
                 try
                 {
-                    FileStream fileStream = new FileStream(file.EntryName, FileMode.Open, FileAccess.Read);
-                    fileStream.Position = 0;
+                    FileStream fileStream = new FileStream(file.EntryName, FileMode.Open, FileAccess.Read)
+                    {
+                        Position = 0
+                    };
                     file.Hash = Encoding.UTF8.GetString(mySHA256.ComputeHash(fileStream));
                     fileStream.Close();
                 }
@@ -185,14 +187,6 @@ namespace FileFinder
         {
             WriteStatus("Sorting...", false);
             Task.Run(() => Sort(e.ColumnIndex));
-        }
-
-        private void gridResults_MouseUp(object sender, MouseEventArgs e)
-        {
-            if (gridResults.SelectedRows.Count > 1)
-                gridResults.ContextMenuStrip = multiSelectRightClickMenu;
-            else if (gridResults.SelectedRows.Count == 1)
-                gridResults.ContextMenuStrip = singleSelectRightClickMenu;
         }
 
         private void openSourceFileFolderToolStripMenuItem_Click(object sender, EventArgs e)
@@ -343,6 +337,14 @@ namespace FileFinder
             }
 
             WriteStatus("Done.", false);
+        }
+
+        private void gridResults_SelectionChanged(object sender, EventArgs e)
+        {
+            if (gridResults.SelectedRows.Count > 1)
+                gridResults.ContextMenuStrip = multiSelectRightClickMenu;
+            else if (gridResults.SelectedRows.Count == 1)
+                gridResults.ContextMenuStrip = singleSelectRightClickMenu;
         }
 
         private void Sort(int columnClicked)
