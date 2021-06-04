@@ -47,7 +47,7 @@ namespace FileFinder
             updateUITimer.Enabled = true;
         }
 
-        private void Enumerate(DirectoryInfo root, ConcurrentBag<FileEntry> fileContainer, ref int directoryCount, ref int fileCount, ref long byteCount, Label statusLabel, ref bool isDone, bool isSource)
+        private void Enumerate(DirectoryInfo root, ConcurrentDictionary<long, ConcurrentBag<FileEntry>> fileContainer, ref int directoryCount, ref int fileCount, ref long byteCount, Label statusLabel, ref bool isDone, bool isSource)
         {
             Queue<DirectoryInfo> destinationDirectories = new Queue<DirectoryInfo>();
             destinationDirectories.Enqueue(root);
@@ -76,7 +76,11 @@ namespace FileFinder
                 {
                     if (file.Length > 0 && !file.FullName.ToLower().EndsWith(".db"))
                     {
-                        fileContainer.Add(new FileEntry() { Entry = file });
+                        if (!fileContainer.ContainsKey(file.Length))
+                            fileContainer[file.Length] = new ConcurrentBag<FileEntry>();
+                        else
+                            fileContainer[file.Length].Add(new FileEntry() { Entry = file });
+
                         byteCount += file.Length;
                     }
                 }
