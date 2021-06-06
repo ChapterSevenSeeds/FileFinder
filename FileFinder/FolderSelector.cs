@@ -7,9 +7,8 @@ namespace FileFinder
 {
     public partial class FormFolderSelector : Form
     {
-        SessionInfo session;
-
-        CommonOpenFileDialog dialog = new CommonOpenFileDialog() { IsFolderPicker = true };
+        readonly SessionInfo session;
+        readonly CommonOpenFileDialog dialog = new CommonOpenFileDialog() { IsFolderPicker = true };
 
         string source;
         string destination;
@@ -46,10 +45,10 @@ namespace FileFinder
 
         private void ResetButtonStatus()
         {
-            btnStart.Enabled = source != null && destination != null;
+            BtnStart.Enabled = source != null && destination != null;
         }
 
-        private void btnStart_Click(object sender, EventArgs e)
+        private void BtnStart_Click(object sender, EventArgs e)
         {
             session.Source = new DirectoryInfo(source);
             session.Destination = new DirectoryInfo(destination);
@@ -66,6 +65,11 @@ namespace FileFinder
             {
                 DialogResult = DialogResult.Cancel;
             }
+        }
+
+        private void CheckboxDisplayNoMatches_CheckedChanged(object sender, EventArgs e)
+        {
+            session.DisplayNoMatches = CheckboxDisplayNoMatches.Checked;
         }
     }
 }

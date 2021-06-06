@@ -30,12 +30,13 @@ namespace FileFinder
         private void InitializeComponent()
         {
             this.TextSourcePath = new System.Windows.Forms.TextBox();
-            this.lblSource = new System.Windows.Forms.Label();
+            this.LblSource = new System.Windows.Forms.Label();
             this.BtnSourceBrowse = new System.Windows.Forms.Button();
             this.BtnBrowseDestination = new System.Windows.Forms.Button();
-            this.lblDestination = new System.Windows.Forms.Label();
+            this.LblDestination = new System.Windows.Forms.Label();
             this.TextDestinationPath = new System.Windows.Forms.TextBox();
-            this.btnStart = new System.Windows.Forms.Button();
+            this.BtnStart = new System.Windows.Forms.Button();
+            this.CheckboxDisplayNoMatches = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // TextSourcePath
@@ -45,15 +46,15 @@ namespace FileFinder
             this.TextSourcePath.Size = new System.Drawing.Size(1490, 26);
             this.TextSourcePath.TabIndex = 0;
             // 
-            // lblSource
+            // LblSource
             // 
-            this.lblSource.AutoSize = true;
-            this.lblSource.Font = new System.Drawing.Font("MS Reference Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSource.Location = new System.Drawing.Point(12, 9);
-            this.lblSource.Name = "lblSource";
-            this.lblSource.Size = new System.Drawing.Size(126, 35);
-            this.lblSource.TabIndex = 1;
-            this.lblSource.Text = "Source:";
+            this.LblSource.AutoSize = true;
+            this.LblSource.Font = new System.Drawing.Font("MS Reference Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblSource.Location = new System.Drawing.Point(12, 9);
+            this.LblSource.Name = "LblSource";
+            this.LblSource.Size = new System.Drawing.Size(126, 35);
+            this.LblSource.TabIndex = 1;
+            this.LblSource.Text = "Source:";
             // 
             // BtnSourceBrowse
             // 
@@ -75,15 +76,15 @@ namespace FileFinder
             this.BtnBrowseDestination.UseVisualStyleBackColor = true;
             this.BtnBrowseDestination.Click += new System.EventHandler(this.BtnBrowseDestination_Click);
             // 
-            // lblDestination
+            // LblDestination
             // 
-            this.lblDestination.AutoSize = true;
-            this.lblDestination.Font = new System.Drawing.Font("MS Reference Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDestination.Location = new System.Drawing.Point(12, 155);
-            this.lblDestination.Name = "lblDestination";
-            this.lblDestination.Size = new System.Drawing.Size(192, 35);
-            this.lblDestination.TabIndex = 4;
-            this.lblDestination.Text = "Destination:";
+            this.LblDestination.AutoSize = true;
+            this.LblDestination.Font = new System.Drawing.Font("MS Reference Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LblDestination.Location = new System.Drawing.Point(12, 155);
+            this.LblDestination.Name = "LblDestination";
+            this.LblDestination.Size = new System.Drawing.Size(192, 35);
+            this.LblDestination.TabIndex = 4;
+            this.LblDestination.Text = "Destination:";
             // 
             // TextDestinationPath
             // 
@@ -92,28 +93,40 @@ namespace FileFinder
             this.TextDestinationPath.Size = new System.Drawing.Size(1490, 26);
             this.TextDestinationPath.TabIndex = 3;
             // 
-            // btnStart
+            // BtnStart
             // 
-            this.btnStart.Enabled = false;
-            this.btnStart.Location = new System.Drawing.Point(1562, 317);
-            this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(90, 32);
-            this.btnStart.TabIndex = 6;
-            this.btnStart.Text = "Start";
-            this.btnStart.UseVisualStyleBackColor = true;
-            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
+            this.BtnStart.Enabled = false;
+            this.BtnStart.Location = new System.Drawing.Point(1562, 317);
+            this.BtnStart.Name = "BtnStart";
+            this.BtnStart.Size = new System.Drawing.Size(90, 32);
+            this.BtnStart.TabIndex = 6;
+            this.BtnStart.Text = "Start";
+            this.BtnStart.UseVisualStyleBackColor = true;
+            this.BtnStart.Click += new System.EventHandler(this.BtnStart_Click);
+            // 
+            // CheckboxDisplayNoMatches
+            // 
+            this.CheckboxDisplayNoMatches.AutoSize = true;
+            this.CheckboxDisplayNoMatches.Location = new System.Drawing.Point(12, 322);
+            this.CheckboxDisplayNoMatches.Name = "CheckboxDisplayNoMatches";
+            this.CheckboxDisplayNoMatches.Size = new System.Drawing.Size(231, 24);
+            this.CheckboxDisplayNoMatches.TabIndex = 7;
+            this.CheckboxDisplayNoMatches.Text = "Display Files With No Match";
+            this.CheckboxDisplayNoMatches.UseVisualStyleBackColor = true;
+            this.CheckboxDisplayNoMatches.CheckedChanged += new System.EventHandler(this.CheckboxDisplayNoMatches_CheckedChanged);
             // 
             // FormFolderSelector
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1664, 362);
-            this.Controls.Add(this.btnStart);
+            this.Controls.Add(this.CheckboxDisplayNoMatches);
+            this.Controls.Add(this.BtnStart);
             this.Controls.Add(this.BtnBrowseDestination);
-            this.Controls.Add(this.lblDestination);
+            this.Controls.Add(this.LblDestination);
             this.Controls.Add(this.TextDestinationPath);
             this.Controls.Add(this.BtnSourceBrowse);
-            this.Controls.Add(this.lblSource);
+            this.Controls.Add(this.LblSource);
             this.Controls.Add(this.TextSourcePath);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "FormFolderSelector";
@@ -127,11 +140,12 @@ namespace FileFinder
         #endregion
 
         private System.Windows.Forms.TextBox TextSourcePath;
-        private System.Windows.Forms.Label lblSource;
+        private System.Windows.Forms.Label LblSource;
         private System.Windows.Forms.Button BtnSourceBrowse;
         private System.Windows.Forms.Button BtnBrowseDestination;
-        private System.Windows.Forms.Label lblDestination;
+        private System.Windows.Forms.Label LblDestination;
         private System.Windows.Forms.TextBox TextDestinationPath;
-        private System.Windows.Forms.Button btnStart;
+        private System.Windows.Forms.Button BtnStart;
+        private System.Windows.Forms.CheckBox CheckboxDisplayNoMatches;
     }
 }

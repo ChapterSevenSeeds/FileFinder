@@ -15,8 +15,8 @@ namespace FileFinder
 {
     public partial class EnumerationInfo : Form
     {
-        SessionInfo session;
-        System.Timers.Timer updateUITimer;
+        readonly SessionInfo session;
+        readonly System.Timers.Timer updateUITimer;
 
         int sourceDirectoryCount = 1, sourceFileCount = 0, destinationDirectoryCount = 1, destinationFileCount = 0;
         long sourceByteCount = 0, destinationByteCount = 0;
@@ -78,8 +78,8 @@ namespace FileFinder
                     {
                         if (!fileContainer.ContainsKey(file.Length))
                             fileContainer[file.Length] = new ConcurrentBag<FileEntry>();
-                        else
-                            fileContainer[file.Length].Add(new FileEntry() { Entry = file });
+
+                        fileContainer[file.Length].Add(new FileEntry() { Entry = file });
 
                         byteCount += file.Length;
                     }

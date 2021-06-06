@@ -16,12 +16,12 @@ namespace FileFinder
 {
     public partial class FormFileFinder : Form
     {
-        SessionInfo session;
+        readonly SessionInfo session;
         BindingList<FileEntry> dataBind;
         string status = "";
         string log = "";
         int progressBarCompletion = 0;
-        System.Timers.Timer uiUpdater;
+        readonly System.Timers.Timer uiUpdater;
         bool sortStatusFlag = false, sortSourceFlag = false, sortDestFlag = false;
         public FormFileFinder()
         {
@@ -68,86 +68,71 @@ namespace FileFinder
         {
             WriteStatus("Sifting through files...");
 
-            WriteToLog($"Source file count: {String.Format("{0:n0}", session.SourceFiles.Count)}");
-            WriteToLog($"Total source bytes: {String.Format("{0:n0}", session.SourceByteCount)}");
+            WriteToLog($"Source file count: {string.Format("{0:n0}", session.SourceFiles.Count)}");
+            WriteToLog($"Total source bytes: {string.Format("{0:n0}", session.SourceByteCount)}");
             WriteToLog("");
-            WriteToLog($"Destination file count: {String.Format("{0:n0}", session.DestinationFiles.Count)}");
-            WriteToLog($"Total Destination bytes: {String.Format("{0:n0}", session.DestinationByteCount)}");
+            WriteToLog($"Destination file count: {string.Format("{0:n0}", session.DestinationFiles.Count)}");
+            WriteToLog($"Total Destination bytes: {string.Format("{0:n0}", session.DestinationByteCount)}");
             WriteToLog("");
             WriteToLog("Beginning work...");
 
             Parallel.ForEach(session.SourceFiles.Keys, sourceLength =>
             {
+                if (!session.DestinationFiles.TryGetValue(sourceLength, out var candidates))
+                {
+                    if (!session.DisplayNoMatches)
+                        session.SourceFiles.TryRemove(sourceLength, out _);
+                    return;
+                }
+
                 foreach (var file in session.SourceFiles[sourceLength])
                 {
                     WriteToLog($"Looking for {file.EntryName}. Size: {string.Format("{0:n0}", file.Entry.Length)}");
 
                     if (session.DestinationFiles.ContainsKey(file.Entry.Length))
                     {
-                        ConcurrentBag<FileEntry> candidates = session.DestinationFiles[file.Entry.Length];
-
                         ComputeHash(file);
                         if (file.Hash == "cant")
                         {
-                            file.Conjugate = candidates.Take(1).First();
+                            candidates.TryPeek(out var result);
+                            file.Conjugate = result;
                             continue;
                         }
 
                         foreach (var candidateFile in candidates)
                         {
-                            if (candidateFile.Hash == null)
-                                ComputeHash(candidateFile);
-
-                            if (file.Hash == candidateFile.Hash)
+                            lock(candidateFile)
                             {
-                                file.Conjugate = candidateFile;
-                                return;
+                                if (candidateFile.Hash == null)
+                                    ComputeHash(candidateFile);
+
+                                if (file.Hash == candidateFile.Hash)
+                                {
+                                    file.Conjugate = candidateFile;
+                                    return;
+                                }
                             }
                         }
-
-                        if (file.Conjugate == null)
-                        {
-                            candidates.TryPeek(out FileEntry result);
-                            file.Conjugate = result;
-                            return;
-                        }
-
-                        /*if (file.Entry.Length == destFile.Entry.Length && file.EntryName != destFile.EntryName)
-                        {
-                            if (file.Hash == null)
-                            {
-                                WriteStatus($"Computing source hash of {file.EntryName}");
-                                WriteToLog($"Computing source hash of {file.EntryName}");
-                                ComputeHash(file);
-                            }
-
-                            if (destFile.Hash == null)
-                            {
-                                WriteStatus($"Computing destination hash of {destFile.EntryName}");
-                                WriteToLog($"Computing destination hash of {destFile.EntryName}");
-                                ComputeHash(destFile);
-                            }
-
-                            if (destFile.Hash == "cant")
-                                continue;
-
-                            if (file.Hash == "cant" || (file.Hash == destFile.Hash))
-                            {
-                                WriteToLog($"Match found. File size: {String.Format("{0:n0}", file.Entry.Length)}. {file.Entry.FullName} <==> {destFile.Entry.FullName}");
-                                WriteStatus($"Match found.");
-                                file.Conjugate = destFile;
-                                break;
-                            }
-                        }*/
                     }
-
                 }
 
-                progressBarCompletion++;
+                ++progressBarCompletion;
             });
 
             uiUpdater.Stop();
             Invoke(new Action(() => progressBar.Value = progressBar.Maximum));
+
+            if (!session.DisplayNoMatches)
+            {
+                WriteToLog("\nFiltering results.");
+
+                Parallel.ForEach(session.SourceFiles.Keys, sourceLength =>
+                {
+                    session.SourceFiles[sourceLength] = new ConcurrentBag<FileEntry>(session.SourceFiles[sourceLength].Where(x => x.Status != "No Match"));
+                });
+            }
+
+
             WriteToLog("\nDone working.");
             
             WriteStatus("Loading results into BindingList...", false);
@@ -202,7 +187,7 @@ namespace FileFinder
                     {
                         Position = 0
                     };
-                    file.Hash = Encoding.UTF8.GetString(mySHA256.ComputeHash(fileStream));
+                    file.Hash = string.Join("", mySHA256.ComputeHash(fileStream));
                     fileStream.Close();
                 }
                 catch (Exception e)
@@ -215,13 +200,13 @@ namespace FileFinder
         }
 
         #region Handlers
-        private void gridResults_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        private void GridResults_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             WriteStatus("Sorting...", false);
             Task.Run(() => Sort(e.ColumnIndex));
         }
 
-        private void openSourceFileFolderToolStripMenuItem_Click(object sender, EventArgs e)
+        private void OpenSourceFileFolderToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
@@ -233,7 +218,7 @@ namespace FileFinder
             }
         }
 
-        private void openDestinationFileFolderToolStripMenuItem_Click(object sender, EventArgs e)
+        private void OpenDestinationFileFolderToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
@@ -245,7 +230,7 @@ namespace FileFinder
             }
         }
 
-        private void openSourceFileToolStripMenuItem_Click(object sender, EventArgs e)
+        private void OpenSourceFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
@@ -257,7 +242,7 @@ namespace FileFinder
             }
         }
 
-        private void openDestinationFileToolStripMenuItem_Click(object sender, EventArgs e)
+        private void OpenDestinationFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
@@ -269,7 +254,7 @@ namespace FileFinder
             }
         }
 
-        private void deleteSourceFileToolStripMenuItem_Click(object sender, EventArgs e)
+        private void DeleteSourceFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
@@ -283,7 +268,7 @@ namespace FileFinder
             }
         }
 
-        private void deleteDestinationFileToolStripMenuItem_Click(object sender, EventArgs e)
+        private void DeleteDestinationFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FileEntry file = (FileEntry)gridResults.SelectedRows[0].DataBoundItem;
             try
@@ -303,7 +288,7 @@ namespace FileFinder
             }
         }
 
-        private void deleteSourceFilesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void DeleteSourceFilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             WriteStatus("Deleting selected source files...", false);
 
@@ -327,7 +312,7 @@ namespace FileFinder
             WriteStatus("Done.", false);
         }
 
-        private void deleteDestinationFilesToolStripMenuItem_Click(object sender, EventArgs e)
+        private void DeleteDestinationFilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             WriteStatus("Deleting selected destination files...", false);
 
@@ -351,12 +336,12 @@ namespace FileFinder
             WriteStatus("Done.", false);
         }
 
-        private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+        private void CloseToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Close();
         }
 
-        private void allIdenticalItemsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AllIdenticalItemsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             WriteStatus("Selecting all identical files...", false);
 
@@ -371,14 +356,20 @@ namespace FileFinder
             WriteStatus("Done.", false);
         }
 
-        private void gridResults_SelectionChanged(object sender, EventArgs e)
+        private void GridResults_SelectionChanged(object sender, EventArgs e)
         {
             if (gridResults.SelectedRows.Count > 1)
                 gridResults.ContextMenuStrip = multiSelectRightClickMenu;
             else if (gridResults.SelectedRows.Count == 1)
                 gridResults.ContextMenuStrip = singleSelectRightClickMenu;
         }
-        private void logToolStripMenuItem_Click(object sender, EventArgs e)
+
+        private void InfoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("FileFinder.\nServes to confirm if all source files in a directory exist in a destination directory.\nWritten by Tyson Jones.", "About");
+        }
+
+        private void LogToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
@@ -445,6 +436,8 @@ namespace FileFinder
 
         public ConcurrentDictionary<long, ConcurrentBag<FileEntry>> SourceFiles { get; set; } = new ConcurrentDictionary<long, ConcurrentBag<FileEntry>>();
         public ConcurrentDictionary<long, ConcurrentBag<FileEntry>> DestinationFiles { get; set; } = new ConcurrentDictionary<long, ConcurrentBag<FileEntry>>();
+
+        public bool DisplayNoMatches { get; set; }
     }
 
     public class FileEntry
@@ -487,5 +480,4 @@ namespace FileFinder
             }
         }
     }
-
 }
